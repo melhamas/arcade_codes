@@ -8,18 +8,17 @@ If Python and Arcade are installed, this example can be run from the command lin
 python -m arcade.examples.starting_template
 """
 import arcade
+from controle import Controle
+from enum_personagens import EnumPersonagemA
 from personagem import Personagem
 from mapa import Mapa
+from enum_mapa import EnumMapa
 
-
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Starting Template"
 
 #Constantes personagem principal
 LARGURA_PERSONAGEM = 100
 ALTURA_PERSONAGEM = 100
-POSX_INICIAL_PERSONAGEM = SCREEN_WIDTH / 2 + LARGURA_PERSONAGEM / 2
+POSX_INICIAL_PERSONAGEM = EnumMapa.LARGURA / 2 + LARGURA_PERSONAGEM / 2
 POSY_INICIAL_PERSONAGEM = ALTURA_PERSONAGEM / 2
 
 class MyGame(arcade.Window):
@@ -37,8 +36,8 @@ class MyGame(arcade.Window):
         arcade.set_background_color(arcade.color.BLEU_DE_FRANCE)
         
         self.mapa = Mapa(width, height, title)
-        self.personagem = Personagem(LARGURA_PERSONAGEM, ALTURA_PERSONAGEM, POSX_INICIAL_PERSONAGEM, POSY_INICIAL_PERSONAGEM, 2, arcade.color.YELLOW)
-        
+        self.personagem = Personagem(POSX_INICIAL_PERSONAGEM, POSY_INICIAL_PERSONAGEM, EnumPersonagemA)
+        self.controleA = Controle()
 
         # If you have sprite lists, you should create them here,
         # and set them to None
@@ -58,7 +57,7 @@ class MyGame(arcade.Window):
         arcade.start_render()
 
         # Call draw() on all your sprite lists below
-        arcade.draw_rectangle_filled(self.personagem.posx, self.personagem.posy, self.personagem.largura, self.personagem.altura, self.personagem.cor)
+        self.personagem.desenhaPersonagemA()
 
 
         
@@ -69,9 +68,9 @@ class MyGame(arcade.Window):
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        self.mapa.mov_intermitente_vertical(self.personagem)
-        self.mapa.mov_intermitente_horizontal(self.personagem)
-                
+        #self.mapa.mov_intermitente_vertical(self.personagem)
+        #self.mapa.mov_intermitente_horizontal(self.personagem)
+        self.controleA.executaMovimentos(self.personagem)
         
             
 
@@ -82,13 +81,13 @@ class MyGame(arcade.Window):
         For a full list of keys, see:
         https://api.arcade.academy/en/latest/arcade.key.html
         """
-        pass
+        self.controleA.teclaPressionadaParaLiberar(key)
 
     def on_key_release(self, key, key_modifiers):
         """
         Called whenever the user lets off a previously pressed key.
         """
-        pass
+        self.controleA.teclaPressionadaParaBloquear(key)
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
         """
@@ -111,7 +110,7 @@ class MyGame(arcade.Window):
 
 def main():
     """ Main function """
-    game = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+    game = MyGame(EnumMapa.LARGURA, EnumMapa.ALTURA, EnumMapa.TITULO)
     game.setup()
     arcade.run()
 

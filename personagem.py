@@ -1,17 +1,21 @@
 
 import arcade
+from enum_personagens import EnumPersonagemA
 
 class Personagem:
-    def __init__(self, largura, altura, posx, posy, txDeslocamento, cor):
-        self._largura       = largura
-        self._altura        = altura
-        self._posx          = posx
-        self._posy          = posy
-        self._deslocamento  = txDeslocamento
-        self._cor           = cor
-        self._movHorizontal = True
-        self._movVertical   = True
-    
+    def __init__(self, posx, posy, nomePersonagem):
+        
+        if(EnumPersonagemA):
+            self._largura       = EnumPersonagemA.LARGURA
+            self._altura        = EnumPersonagemA.ALTURA
+            self._posx          = posx
+            self._posy          = posy
+            self._deslocamento  = EnumPersonagemA.VELOCIDADE
+            self._cor           = EnumPersonagemA.COR
+            
+            
+        
+        
 
     @property
     def largura(self):
@@ -89,6 +93,10 @@ class Personagem:
     
     def getExtremidadeDireita(self):
         return self.posx + self.largura / 2
+
+    ##################################  PERSONAGENS
+    def desenhaPersonagemA(self):
+        return arcade.draw_rectangle_filled(self.posx, self.posy, EnumPersonagemA.LARGURA, EnumPersonagemA.ALTURA, EnumPersonagemA.COR)
 
 
     ##################################  MECÂNICA    
