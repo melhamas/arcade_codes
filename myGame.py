@@ -8,18 +8,13 @@ If Python and Arcade are installed, this example can be run from the command lin
 python -m arcade.examples.starting_template
 """
 import arcade
-from controle import Controle
-from enum_personagens import EnumPersonagemA
+from enum_personagens import EnumPersonagemMelhamas
 from personagem import Personagem
 from mapa import Mapa
-from enum_mapa import EnumMapa
+from enum_mapa import EnumMapaInicial
+from controle import Controle
 
 
-#Constantes personagem principal
-LARGURA_PERSONAGEM = 100
-ALTURA_PERSONAGEM = 100
-POSX_INICIAL_PERSONAGEM = EnumMapa.LARGURA / 2 + LARGURA_PERSONAGEM / 2
-POSY_INICIAL_PERSONAGEM = ALTURA_PERSONAGEM / 2
 
 class MyGame(arcade.Window):
     """
@@ -30,13 +25,13 @@ class MyGame(arcade.Window):
     with your own code. Don't leave 'pass' in this program.
     """
 
-    def __init__(self, width, height, title):
-        super().__init__(width, height, title)
+    def __init__(self, mapa, personagem):
+        super().__init__(mapa.LARGURA, mapa.ALTURA, mapa.TITULO)
 
         arcade.set_background_color(arcade.color.BLEU_DE_FRANCE)
         
-        self.mapa = Mapa(width, height, title)
-        self.personagem = Personagem(POSX_INICIAL_PERSONAGEM, POSY_INICIAL_PERSONAGEM, EnumPersonagemA)
+        self.mapa = Mapa(mapa.LARGURA, mapa.ALTURA, mapa.TITULO)
+        self.personagem = Personagem(mapa.POSX_INICIAL_PERSONAGEM, mapa.POSY_INICIAL_PERSONAGEM, personagem)
         self.controleA = Controle()
 
         # If you have sprite lists, you should create them here,
@@ -61,15 +56,13 @@ class MyGame(arcade.Window):
 
 
         
-
     def on_update(self, delta_time):
         """
         All the logic to move, and the game logic goes here.
         Normally, you'll call update() on the sprite lists that
         need it.
         """
-        #self.mapa.mov_intermitente_vertical(self.personagem)
-        #self.mapa.mov_intermitente_horizontal(self.personagem)
+        
         self.controleA.executaMovimentos(self.personagem)
         
             
@@ -110,7 +103,7 @@ class MyGame(arcade.Window):
 
 def main():
     """ Main function """
-    game = MyGame(EnumMapa.LARGURA, EnumMapa.ALTURA, EnumMapa.TITULO)
+    game = MyGame(EnumMapaInicial, EnumPersonagemMelhamas)
     game.setup()
     arcade.run()
 

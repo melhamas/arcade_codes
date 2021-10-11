@@ -1,6 +1,10 @@
+"""
+@msvinicioos
+"""
+
 from enum_controle import EnumControle
 from personagem import Personagem
-
+from enum_mapa import EnumMapaInicial
 
 from personagem import Personagem
 
@@ -84,15 +88,32 @@ class Controle:
     ################################## MOVIMENTOS
     def executaMovimentos(self, personagem: Personagem):
         if(self.movimentoParaCima):
-            personagem.moveCima()
+            if(not EnumMapaInicial.FRONTEIRAS_LIMITADAS):
+                personagem.moveCima() 
+            else:
+                if(personagem.getExtremidadeSuperior() < EnumMapaInicial.ALTURA):
+                    personagem.moveCima() 
+
         
         if(self.movimentoParaDir):
-            personagem.moveDireita()
+            if(not EnumMapaInicial.FRONTEIRAS_LIMITADAS):
+                personagem.moveDireita()
+            else:
+                if(personagem.getExtremidadeDireita() < EnumMapaInicial.LARGURA):
+                    personagem.moveDireita() 
+        
         
         if(self.movimentoParaBaixo):
-            personagem.moveBaixo()
-        
-        if(self.movimentoParaEsq):
-            personagem.moveEsquerda()
+            if(not EnumMapaInicial.FRONTEIRAS_LIMITADAS):
+                personagem.moveBaixo()
+            else:
+                if(personagem.getExtremidadeInferior() > 0):
+                    personagem.moveBaixo() 
 
+        if(self.movimentoParaEsq):
+            if(not EnumMapaInicial.FRONTEIRAS_LIMITADAS):
+                personagem.moveEsquerda()
+            else:
+                if(personagem.getExtremidadeEsquerda() > 0):
+                    personagem.moveEsquerda() 
     

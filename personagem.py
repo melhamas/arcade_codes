@@ -1,19 +1,17 @@
 
 import arcade
-from enum_personagens import EnumPersonagemA
+from enum_personagens import EnumPersonagemMelhamas
 
 class Personagem:
     def __init__(self, posx, posy, nomePersonagem):
         
-        if(EnumPersonagemA):
-            self._largura       = EnumPersonagemA.LARGURA
-            self._altura        = EnumPersonagemA.ALTURA
+        if(EnumPersonagemMelhamas):
+            self._largura       = EnumPersonagemMelhamas.LARGURA
+            self._altura        = EnumPersonagemMelhamas.ALTURA
             self._posx          = posx
-            self._posy          = posy
-            self._deslocamento  = EnumPersonagemA.VELOCIDADE
-            self._cor           = EnumPersonagemA.COR
-            
-            
+            self._posy          = posy + EnumPersonagemMelhamas.ALTURA/2
+            self._deslocamento  = EnumPersonagemMelhamas.VELOCIDADE
+            self._cor           = EnumPersonagemMelhamas.COR
         
         
 
@@ -96,7 +94,7 @@ class Personagem:
 
     ##################################  PERSONAGENS
     def desenhaPersonagemA(self):
-        return arcade.draw_rectangle_filled(self.posx, self.posy, EnumPersonagemA.LARGURA, EnumPersonagemA.ALTURA, EnumPersonagemA.COR)
+        return arcade.draw_rectangle_filled(self.posx, self.posy, self.largura, self.altura, self.cor)
 
 
     ##################################  MECÂNICA    
