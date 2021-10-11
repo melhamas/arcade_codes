@@ -8,7 +8,7 @@ If Python and Arcade are installed, this example can be run from the command lin
 python -m arcade.examples.starting_template
 """
 import arcade
-from enum_personagens import EnumPersonagemMelhamas
+from enum_personagens import EnumPersonagemInimigo, EnumPersonagemMelhamas
 from personagem import Personagem
 from mapa import Mapa
 from enum_mapa import EnumMapaInicial
@@ -30,9 +30,11 @@ class MyGame(arcade.Window):
 
         arcade.set_background_color(arcade.color.BLEU_DE_FRANCE)
         
-        self.mapa = Mapa(mapa.LARGURA, mapa.ALTURA, mapa.TITULO)
+        self.mapa       = Mapa(mapa.LARGURA, mapa.ALTURA, mapa.TITULO)
         self.personagem = Personagem(mapa.POSX_INICIAL_PERSONAGEM, mapa.POSY_INICIAL_PERSONAGEM, personagem)
-        self.controleA = Controle()
+        self.inimigo    = Personagem(mapa.POSX_INICIAL_INIMIGO, mapa.POSY_INICIAL_INIMIGO, EnumPersonagemInimigo) 
+        self.controleA  = Controle(True)
+        self.controleB  = Controle(False)
 
         # If you have sprite lists, you should create them here,
         # and set them to None
@@ -53,6 +55,7 @@ class MyGame(arcade.Window):
 
         # Call draw() on all your sprite lists below
         self.personagem.desenhaPersonagemA()
+        self.inimigo.desenhaPersonagemA()
 
 
         
@@ -63,7 +66,13 @@ class MyGame(arcade.Window):
         need it.
         """
         
+
+        
         self.controleA.executaMovimentos(self.personagem)
+        
+        self.controleB.executaMovimentos(self.inimigo)
+        #self.mapa.mov_intermitente_horizontal(self.inimigo)
+        #self.mapa.mov_intermitente_vertical(self.inimigo)
         
             
 
@@ -75,12 +84,14 @@ class MyGame(arcade.Window):
         https://api.arcade.academy/en/latest/arcade.key.html
         """
         self.controleA.teclaPressionadaParaLiberar(key)
+        self.controleB.teclaPressionadaParaLiberar(key)
 
     def on_key_release(self, key, key_modifiers):
         """
         Called whenever the user lets off a previously pressed key.
         """
         self.controleA.teclaPressionadaParaBloquear(key)
+        self.controleB.teclaPressionadaParaBloquear(key)
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
         """

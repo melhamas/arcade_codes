@@ -1,18 +1,30 @@
 
 import arcade
-from enum_personagens import EnumPersonagemMelhamas
+from enum_personagens import EnumPersonagemInimigo, EnumPersonagemMelhamas
 
 class Personagem:
     def __init__(self, posx, posy, nomePersonagem):
         
-        if(EnumPersonagemMelhamas):
-            self._largura       = EnumPersonagemMelhamas.LARGURA
-            self._altura        = EnumPersonagemMelhamas.ALTURA
+        #CORREÇÃO
+        if(nomePersonagem == EnumPersonagemMelhamas):
+            self._largura       = nomePersonagem.LARGURA
+            self._altura        = nomePersonagem.ALTURA
             self._posx          = posx
-            self._posy          = posy + EnumPersonagemMelhamas.ALTURA/2
-            self._deslocamento  = EnumPersonagemMelhamas.VELOCIDADE
-            self._cor           = EnumPersonagemMelhamas.COR
-        
+            self._posy          = posy + nomePersonagem.ALTURA/2
+            self._deslocamento  = nomePersonagem.VELOCIDADE
+            self._cor           = nomePersonagem.COR
+            self._movHorizontal = True
+            self._movVertical   = True
+            
+        elif(nomePersonagem == EnumPersonagemInimigo):
+            self._largura       = nomePersonagem.LARGURA
+            self._altura        = nomePersonagem.ALTURA
+            self._posx          = posx
+            self._posy          = posy - nomePersonagem.ALTURA/2
+            self._deslocamento  = nomePersonagem.VELOCIDADE
+            self._cor           = nomePersonagem.COR
+            self._movHorizontal = True
+            self._movVertical   = True
         
 
     @property
