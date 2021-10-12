@@ -1,28 +1,33 @@
+"""
+@melhamas 11/10/21
+
+Classe responsável por criar o personagem informado como parâmetros no init. 
+Esse personagem deve estar criado no enum_personagens.py
+"""
 
 import arcade
 from enum_personagens import EnumPersonagemInimigo, EnumPersonagemMelhamas
 
 class Personagem:
-    def __init__(self, posx, posy, nomePersonagem):
+    def __init__(self, posx, posy, enumPersonagem):
         
-        #CORREÇÃO
-        if(nomePersonagem == EnumPersonagemMelhamas):
-            self._largura       = nomePersonagem.LARGURA
-            self._altura        = nomePersonagem.ALTURA
+        if(enumPersonagem == EnumPersonagemMelhamas):
+            self._largura       = enumPersonagem.LARGURA
+            self._altura        = enumPersonagem.ALTURA
             self._posx          = posx
-            self._posy          = posy + nomePersonagem.ALTURA/2
-            self._deslocamento  = nomePersonagem.VELOCIDADE
-            self._cor           = nomePersonagem.COR
+            self._posy          = posy + enumPersonagem.ALTURA/2
+            self._deslocamento  = enumPersonagem.VELOCIDADE
+            self._cor           = enumPersonagem.COR
             self._movHorizontal = True
             self._movVertical   = True
             
-        elif(nomePersonagem == EnumPersonagemInimigo):
-            self._largura       = nomePersonagem.LARGURA
-            self._altura        = nomePersonagem.ALTURA
+        elif(enumPersonagem == EnumPersonagemInimigo):
+            self._largura       = enumPersonagem.LARGURA
+            self._altura        = enumPersonagem.ALTURA
             self._posx          = posx
-            self._posy          = posy - nomePersonagem.ALTURA/2
-            self._deslocamento  = nomePersonagem.VELOCIDADE
-            self._cor           = nomePersonagem.COR
+            self._posy          = posy - enumPersonagem.ALTURA/2
+            self._deslocamento  = enumPersonagem.VELOCIDADE
+            self._cor           = enumPersonagem.COR
             self._movHorizontal = True
             self._movVertical   = True
         
@@ -84,7 +89,6 @@ class Personagem:
         self._movHorizontal = not self._movHorizontal
 
 
-    
     @property
     def movVertical(self):
         return self._movVertical
@@ -105,12 +109,21 @@ class Personagem:
         return self.posx + self.largura / 2
 
     ##################################  PERSONAGENS
+    """
+    NOTE: MELHORIA
+    Tentar remover o desenho do personagem daqui e deixar fixo no enum_personagens.py
+    """
     def desenhaPersonagemA(self):
         return arcade.draw_rectangle_filled(self.posx, self.posy, self.largura, self.altura, self.cor)
 
 
     ##################################  MECÂNICA    
 
+    """
+    NOTE: A mecânica de movimento funciona sem nenhum teste, quando chamada, vai 
+    apenas movimentar. Supõnhe-se que os testes foram feitos antes de chamar 
+    uma dessas funções.
+    """
     def moveCima(self):
         self.posy += self.deslocamento
 

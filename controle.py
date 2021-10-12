@@ -1,12 +1,16 @@
-"""
-@msvinicioos
+"""""
+@melhamas - 11/10/21
+
+A classe é responsável por controlar um jogador. O padrão de teclas vem do 
+enum_controle
+
+A instância de um jogador é definida, de forma inicial como jogador primário: True
+ou secundário: False.
 """
 
-from enum_controle import EnumControle, EnumControle_B
+from enum_controle import EnumControlePrincpal, EnumControleSecundario
 from personagem import Personagem
 from enum_mapa import EnumMapaInicial
-
-from personagem import Personagem
 
 class Controle:
 
@@ -41,6 +45,23 @@ class Controle:
 
     
     ################################ BLOQUEIOS E LIBERAÇÕES
+    """
+    @melhamas 11/10/21
+
+    NOTE: Um movimento liberado, indica que a biblioteca arcade pode
+    ficar atualizando a posição de um personagem. 
+
+    - Movimento Liberado
+    A liberação é realizada quando o usuário pressiona uma tecla de movimentação.
+
+    - Movimento Bloqueado
+    O bloqueio de um movimento é realizado quando o usuário solta a tecla
+
+
+    Teclas jogador primário: True {A, S, D, W}
+    Teclas jogador secundário: False {LEFT, UP, RIGHT, DOWN}
+    
+    """
     def liberaMovimentoParaCima(self):
         self._movimentoParaCima = True
     
@@ -68,50 +89,62 @@ class Controle:
     
     ################################ IDENTIFICANDO MOVIMENTOS DO PERSONAGEM E DO INIMIGO
     
+    """
+    NOTE: Aqui as funçções são responsáveis por comparar a tecla pressionada com
+    as teclas declaradas do jogador. Caso o match aconteça, as liberações ou bloqueios acontecem.
+    """
     
     def teclaPressionadaParaLiberar(self, tecla):
         if(self.jogadorPrincipal):
-            if(tecla == EnumControle.TECLA_CIMA):
+            if(tecla == EnumControlePrincpal.TECLA_CIMA):
                 self.liberaMovimentoParaCima()
-            elif(tecla == EnumControle.TECLA_DIR):
+            elif(tecla == EnumControlePrincpal.TECLA_DIR):
                 self.liberaMovimentoParaDir()
-            elif(tecla == EnumControle.TECLA_BAIXO):
+            elif(tecla == EnumControlePrincpal.TECLA_BAIXO):
                 self.liberaMovimentoParaBaixo()
-            elif(tecla == EnumControle.TECLA_ESQ):
+            elif(tecla == EnumControlePrincpal.TECLA_ESQ):
                 self.liberaMovimentoParaEsq()
         else:
-            if(tecla == EnumControle_B.TECLA_CIMA_INIMIGO):
+            if(tecla == EnumControleSecundario.TECLA_CIMA_INIMIGO):
                 self.liberaMovimentoParaCima()
-            elif(tecla == EnumControle_B.TECLA_DIR_INIMIGO):
+            elif(tecla == EnumControleSecundario.TECLA_DIR_INIMIGO):
                 self.liberaMovimentoParaDir()
-            elif(tecla == EnumControle_B.TECLA_BAIXO_INIMIGO):
+            elif(tecla == EnumControleSecundario.TECLA_BAIXO_INIMIGO):
                 self.liberaMovimentoParaBaixo()
-            elif(tecla == EnumControle_B.TECLA_ESQ_INIMIGO):
+            elif(tecla == EnumControleSecundario.TECLA_ESQ_INIMIGO):
                 self.liberaMovimentoParaEsq()
     
     def teclaPressionadaParaBloquear(self, tecla):
         if(self.jogadorPrincipal):
-            if(tecla == EnumControle.TECLA_CIMA):
+            if(tecla == EnumControlePrincpal.TECLA_CIMA):
                 self.bloqueiaMovimentoParaCima()
-            elif(tecla == EnumControle.TECLA_DIR):
+            elif(tecla == EnumControlePrincpal.TECLA_DIR):
                 self.bloqueiaMovimentoParaDir()
-            elif(tecla == EnumControle.TECLA_BAIXO):
+            elif(tecla == EnumControlePrincpal.TECLA_BAIXO):
                 self.bloqueiaMovimentoParaBaixo()
-            elif(tecla == EnumControle.TECLA_ESQ):
+            elif(tecla == EnumControlePrincpal.TECLA_ESQ):
                 self.bloqueiaMovimentoParaEsq()
         else:
-            if(tecla == EnumControle_B.TECLA_CIMA_INIMIGO):
+            if(tecla == EnumControleSecundario.TECLA_CIMA_INIMIGO):
                 self.bloqueiaMovimentoParaCima()
-            elif(tecla == EnumControle_B.TECLA_DIR_INIMIGO):
+            elif(tecla == EnumControleSecundario.TECLA_DIR_INIMIGO):
                 self.bloqueiaMovimentoParaDir()
-            elif(tecla == EnumControle_B.TECLA_BAIXO_INIMIGO):
+            elif(tecla == EnumControleSecundario.TECLA_BAIXO_INIMIGO):
                 self.bloqueiaMovimentoParaBaixo()
-            elif(tecla == EnumControle_B.TECLA_ESQ_INIMIGO):
+            elif(tecla == EnumControleSecundario.TECLA_ESQ_INIMIGO):
                 self.bloqueiaMovimentoParaEsq()
 
 
 
     ################################## MOVIMENTOS
+
+    """
+    NOTE: A execução dos movimentos é dada nas seguintes funções. Quando chamadas, 
+    as funções se preocupam apenas em executar a movimentação, supõe-se que as teclas já foram presisonadas.
+
+    O único controle que existe é com relação à flag FRONTEIRAS_LIMITADAS que vem do arquivo enum_mapa.py
+    que, se True existe as limitações de fronteiras e caso False, não há fronteiras.
+    """
     def executaMovimentos(self, personagem: Personagem):
         if(self.movimentoParaCima):
             if(not EnumMapaInicial.FRONTEIRAS_LIMITADAS):
@@ -119,7 +152,6 @@ class Controle:
             else:
                 if(personagem.getExtremidadeSuperior() < EnumMapaInicial.ALTURA):
                     personagem.moveCima() 
-
         
         if(self.movimentoParaDir):
             if(not EnumMapaInicial.FRONTEIRAS_LIMITADAS):

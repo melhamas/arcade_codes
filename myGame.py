@@ -1,14 +1,5 @@
-"""
-Starting Template
-
-Once you have learned how to use classes, you can begin your program with this
-template.
-
-If Python and Arcade are installed, this example can be run from the command line with:
-python -m arcade.examples.starting_template
-"""
 import arcade
-from enum_personagens import EnumPersonagemInimigo, EnumPersonagemMelhamas
+from enum_personagens import EnumPersonagemMelhamas, EnumPersonagemInimigo
 from personagem import Personagem
 from mapa import Mapa
 from enum_mapa import EnumMapaInicial
@@ -30,7 +21,7 @@ class MyGame(arcade.Window):
 
         arcade.set_background_color(arcade.color.BLEU_DE_FRANCE)
         
-        self.mapa       = Mapa(mapa.LARGURA, mapa.ALTURA, mapa.TITULO)
+        self.mapa       = Mapa(mapa)
         self.personagem = Personagem(mapa.POSX_INICIAL_PERSONAGEM, mapa.POSY_INICIAL_PERSONAGEM, personagem)
         self.inimigo    = Personagem(mapa.POSX_INICIAL_INIMIGO, mapa.POSY_INICIAL_INIMIGO, EnumPersonagemInimigo) 
         self.controleA  = Controle(True)

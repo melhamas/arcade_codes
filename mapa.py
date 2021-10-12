@@ -1,11 +1,20 @@
+from enum_mapa import EnumMapaInicial
 from personagem import Personagem
 
+"""
+@melhamas 11/10/21
+
+NOTE: Classe responsável pela criação dos mapas
+"""
 
 class Mapa:
-    def __init__(self, largura, altura, nome):
-        self._largura = largura
-        self._altura = altura
-        self._nome = nome
+    def __init__(self, mapa):
+        
+        if(mapa == EnumMapaInicial):
+            self._largura = mapa.LARGURA
+            self._altura = mapa.ALTURA
+            self._nome = mapa.TITULO
+
     
     
     @property
@@ -33,6 +42,10 @@ class Mapa:
         return self._nome
 
     ###################################### MECÂNICA
+    """
+    NOTE: Nessa mecânica, o mapa permite, dado um personagem, automatizar seu movimento
+    no mapa.
+    """
 
     def movParaCimaLiberado(self, personagem: Personagem):
         return personagem.getExtremidadeSuperior() < self.altura
